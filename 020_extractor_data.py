@@ -32,7 +32,7 @@ for i, val in enumerate(list):
 # 抽出した内容をファイルに出力
 for i, temp in enumerate(result):
     df[result[i][0]:result[i][-1]
-       ].to_csv(file + "{0:03}.csv".format(i), encoding="shift_jis")
+       ].to_csv(file[:-4] + "_{0:03}.csv".format(i), encoding="shift_jis")
 
 
 # 参考までに表示
