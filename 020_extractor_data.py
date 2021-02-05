@@ -30,9 +30,27 @@ for i, val in enumerate(list):
 
 
 # 抽出した内容をファイルに出力
+# for i, temp in enumerate(result):
+#    df[result[i][0]:result[i][-1]].to_csv(file[:-4] + "_{0:03}.csv".format(i), encoding="shift_jis")
+
+# 各列ごとにファイルにまとめる
+# データフレームの初期化
+df1 = pd.DataFrame(index=range(1000))
+df2 = pd.DataFrame(index=range(1000))
+df3 = pd.DataFrame(index=range(1000))
+# 各データフレームに値を入れていく
 for i, temp in enumerate(result):
-    df[result[i][0]:result[i][-1]
-       ].to_csv(file[:-4] + "_{0:03}.csv".format(i), encoding="shift_jis")
+    label = "{0:03}".format(i)
+    df1["1" + label] = pd.DataFrame(df[temp[0]:temp[-1]]["OUT1"]
+                                    .reset_index().loc[:, ["OUT1"]])
+    df2["2" + label] = pd.DataFrame(df[temp[0]:temp[-1]]["OUT2"]
+                                    .reset_index().loc[:, ["OUT2"]])
+    df3["3" + label] = pd.DataFrame(df[temp[0]:temp[-1]]["diff"]
+                                    .reset_index().loc[:, ["diff"]])
+# ファイルに書き込み
+df1.to_csv(file[:-4] + "-out1.csv", encoding="shift_jis")
+df2.to_csv(file[:-4] + "-out2.csv", encoding="shift_jis")
+df3.to_csv(file[:-4] + "-diff.csv", encoding="shift_jis")
 
 
 # 参考までに表示
