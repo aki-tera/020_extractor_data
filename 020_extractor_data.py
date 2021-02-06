@@ -81,9 +81,9 @@ class DataExtractor:
     def save_dataframe(self):
         # ファイルに書き込み
         # excelで開きたいのでshift-jisを指定する
-        self.df1.to_csv(self.DEFilename[:-4] + "-OUT1.csv", encoding="shift_jis")
-        self.df2.to_csv(self.DEFilename[:-4] + "-OUT2.csv", encoding="shift_jis")
-        self.df3.to_csv(self.DEFilename[:-4] + "-diff.csv", encoding="shift_jis")
+        self.df1.to_csv(self.DEFilename[:-4] + "-"+self.DECol1+".csv", encoding="shift_jis")
+        self.df2.to_csv(self.DEFilename[:-4] + "-"+self.DECol2+".csv", encoding="shift_jis")
+        self.df3.to_csv(self.DEFilename[:-4] + "-"+self.DECol3+".csv", encoding="shift_jis")
 
     def plot_dataframe(self):
         # 参考までに表示
