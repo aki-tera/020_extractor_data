@@ -12,11 +12,11 @@
 You can create graphs and result's csv files from original csv files.
 
 ### specification
-- You get the median of each from the ranges which you want between high and low.
-- You can change the settings according to the logger type in original csv files.
+- You get the separated data by 2 columns from the ranges which you want between high and low.
+- You can change the settings by setting file.
 ### original csv files
 - You should assume files which output from a logger.
-- The files must contain the date(yyyy/mm/dd), data1, data2.
+- The files must contain data1, data2.
 - The data must have stable data for a certain period.
 ### output data
 - You can get the results which are csv files and graphs.
