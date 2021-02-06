@@ -28,13 +28,22 @@ class DataExtractor:
 
 
     def create_dataframe(self):
-        # ファイルの読み出し
-        self.df = pd.read_csv(self.DEFilename, encoding="SHIFT-JIS", engine='python')
-        # 差分を追加
-        if self.DEFirst == self.DECol1:
-            self.df[self.DECol3] = self.df[self.DECol1] - self.df[self.DECol2]
+        if self.DEFilename[-8:] not in [self.DECol1+".csv", self.DECol2+".csv", self.DECol3+".csv"]:
+            # ファイルの読み出し
+            self.df = pd.read_csv(self.DEFilename, encoding="SHIFT-JIS", engine='python')
+            # 差分を追加
+            try:
+                if self.DEFirst == self.DECol1:
+                    self.df[self.DECol3] = self.df[self.DECol1] - self.df[self.DECol2]
+                else:
+                    self.df[self.DECol3] = self.df[self.DECol2] - self.df[self.DECol1]
+                print("処理実施："+self.DEFilename)
+                return(True)
+            except BaseException as e:
+                print("処理不可：{0}  -->{1}が存在しません".format(self.DEFilename,str(e)))
         else:
-            self.df[self.DECol3] = self.df[self.DECol2] - self.df[self.DECol1]
+            print("処理不要："+self.DEFilename )
+        return(False)
 
     def separate_dataframe(self):
         # 該当のINDEXを抽出
@@ -72,8 +81,8 @@ class DataExtractor:
     def save_dataframe(self):
         # ファイルに書き込み
         # excelで開きたいのでshift-jisを指定する
-        self.df1.to_csv(self.DEFilename[:-4] + "-out1.csv", encoding="shift_jis")
-        self.df2.to_csv(self.DEFilename[:-4] + "-out2.csv", encoding="shift_jis")
+        self.df1.to_csv(self.DEFilename[:-4] + "-OUT1.csv", encoding="shift_jis")
+        self.df2.to_csv(self.DEFilename[:-4] + "-OUT2.csv", encoding="shift_jis")
         self.df3.to_csv(self.DEFilename[:-4] + "-diff.csv", encoding="shift_jis")
 
     def plot_dataframe(self):
@@ -100,9 +109,8 @@ def main():
     # ファイル読み込み
     filename = glob.glob("*.csv")
     for row in filename:
-        if row[-9:] not in ["-out1.csv", "-out2.csv", "-diff.csv"]:
-            d = DataExtractor(row, dict)
-            d.create_dataframe()
+        d = DataExtractor(row, dict)
+        if d.create_dataframe():
             d.separate_dataframe()
             d.save_dataframe()
             d.plot_dataframe()
