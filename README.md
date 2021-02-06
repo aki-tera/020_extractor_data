@@ -28,12 +28,10 @@ Python 3
    - Windows 10
 
 Python Library
-  - re
-  - numpy
-  - statistics
+  - pandas
   - matplotlib
   - glob
-  - os
+  - json
 
 ## Usage
 1. You place the csv files in the same folder as this program.
