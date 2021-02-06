@@ -77,11 +77,11 @@ class DataExtractor:
 
 def main():
     # パラメータの取り出し
-    DESetting = open("setting.json", "r")
-    DEDict = json.load(DESetting)
+    setting = open("setting.json", "r")
+    dict = json.load(setting)
     # 辞書から取り出したパラメータをセットする
-    high = DEDict["high"]
-    low = DEDict["low"]
+    high = dict["high"]
+    low = dict["low"]
 
     # ファイル読み込み
     filename = glob.glob("*.csv")
