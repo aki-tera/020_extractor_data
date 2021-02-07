@@ -89,7 +89,7 @@ class DataExtractor:
     def plot_dataframe(self):
         # 参考までに表示
         if self.DEPlotsize == (1,1):
-            return
+            return(0)
         
         fig = figure(figsize=self.DEPlotsize)
         for i in range(9):
@@ -103,6 +103,7 @@ class DataExtractor:
             ax.set_ylim(bottom=-5, top=5)
             # グリッド表示
             ax.grid(True)
+        return(1)
 
 
 def main():
@@ -112,13 +113,15 @@ def main():
 
     # ファイル読み込み
     filename = glob.glob("*.csv")
+    plot_counter = 0
     for row in filename:
         d = DataExtractor(row, dict)
         if d.create_dataframe():
             d.separate_dataframe()
             d.save_dataframe()
-            d.plot_dataframe()
-    plt.show()
+            plot_counter=d.plot_dataframe()
+    if plot_counter != 0:
+        plt.show()
 
 if __name__=="__main__":
     main()
