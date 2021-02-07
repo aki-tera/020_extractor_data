@@ -25,7 +25,8 @@ class DataExtractor:
         self.DELow2 = dict[self.DECol2]["low"]
 
         self.DEFirst = dict[self.DECol3]["first"]
-
+        
+        self.DEPlotsize = {"small":(8,5), "large":(15,8), "zero":(1,1)}[dict["graph"]["size"]]
 
     def create_dataframe(self):
         if self.DEFilename[-8:] not in [self.DECol1+".csv", self.DECol2+".csv", self.DECol3+".csv"]:
@@ -87,7 +88,10 @@ class DataExtractor:
 
     def plot_dataframe(self):
         # 参考までに表示
-        fig = figure(figsize=(10, 8))
+        if self.DEPlotsize == (1,1):
+            return
+        
+        fig = figure(figsize=self.DEPlotsize)
         for i in range(9):
             num = i
 
