@@ -6,6 +6,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 
+# 日本語フォント
+jp_font = "Yu Gothic"
+
 
 class DataExtractor:
     def __init__(self, filename, dict):
@@ -25,8 +28,8 @@ class DataExtractor:
         self.DEFirst = dict[self.DECol3]["first"]
 
         self.DEPlotsize = {
-            "small": (8, 5),
-            "large": (15, 8),
+            "small": (9, 5),
+            "large": (13, 10),
             "zero": (1, 1)
         }[dict["graph"]["size"]]
 
@@ -62,9 +65,11 @@ class DataExtractor:
         query_eva2 = "({1} < {0} & {0} < {2})".format(
             self.DECol2, self.DELow2, self.DEHigh2)
         list = self.df.query(query_eva1 + " | " + query_eva2).index
+
         # INDEXの塊をリストに切り分け
         self.result = []
         val_pre = 0
+        index_max = 0
         for i, val in enumerate(list):
             if i == 0:
                 temp = [val]
@@ -72,13 +77,18 @@ class DataExtractor:
                 temp.append(val)
             else:
                 self.result.append(temp)
+                # 最も大きいindexを調査
+                if len(temp) > index_max:
+                    index_max = len(temp)
                 temp = [val]
             val_pre = val
+
         # 各列ごとにファイルにまとめる
         # 各列ごとのデータフレームの初期化
-        self.df1 = pd.DataFrame(index=range(100))
-        self.df2 = pd.DataFrame(index=range(100))
-        self.df3 = pd.DataFrame(index=range(100))
+        self.df1 = pd.DataFrame(index=range(index_max - 1))
+        self.df2 = pd.DataFrame(index=range(index_max - 1))
+        self.df3 = pd.DataFrame(index=range(index_max - 1))
+
         # 各データフレームに値を入れていく
         for i, temp in enumerate(self.result):
             label = "{0:03}".format(i)
@@ -100,22 +110,46 @@ class DataExtractor:
             self.DEFilename[:-4] + "-" + self.DECol3 + ".csv", encoding="shift_jis")
 
     def plot_dataframe(self):
-        # 参考までに表示
+
         if self.DEPlotsize == (1, 1):
             return(0)
 
+        # 参考までにグラフを表示する
+
+        # プロットするグラフの飛び数
+        num_plot_add = 1
+        # プロットするグラフの最大の数
+        num_plot_max = len(self.result)
+        if num_plot_max > 9:
+            num_plot_add = int(num_plot_max / 9)
+            num_plot_max = 9
+
         fig = figure(figsize=self.DEPlotsize)
-        for i in range(9):
-            num = i
+
+        # 描画タイトルを表示
+        fig.suptitle(self.DEFilename, fontname=jp_font)
+
+        for i in range(num_plot_max):
+            num = i * num_plot_add
 
             # 表示場所を指定
             ax = fig.add_subplot(3, 3, i + 1)
+            if self.DEPlotsize[0] > 10:
+                display_legend = True
+                # 描画タイトルを表示
+                ax.set_title("No.{0}".format(num))
+            else:
+                display_legend = False
+
             # 折れ線グラフ
-            self.df[self.result[num][0]:self.result[num][-1]].plot(ax=ax)
+            self.df[self.result[num][0]:self.result[num][-1]].plot(
+                legend=display_legend,
+                ax=ax)
             # 縦軸の値を指定
             ax.set_ylim(bottom=-1, top=1)
             # グリッド表示
             ax.grid(True)
+
         return(1)
 
 
