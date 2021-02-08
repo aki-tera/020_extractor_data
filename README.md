@@ -3,10 +3,11 @@
 
 ## DEMO
 **Output Data  <-**  
-<img src="https://user-images.githubusercontent.com/44888139/105790143-14fa2300-5fc7-11eb-821f-5e803d164bfe.png" width="400px">  
+<img src="https://user-images.githubusercontent.com/44888139/107182733-a1253500-6a20-11eb-89f5-a8c757ac27da.png" width="500px">
+<img src="https://user-images.githubusercontent.com/44888139/107182792-c31eb780-6a20-11eb-9a7b-309a94fc6b3a.png" width="200px">  
 **INPUT Data  ->**   
-<img src="https://user-images.githubusercontent.com/44888139/105966797-7655eb00-60c8-11eb-997c-9ea81346d853.png" width="300px"> 
-<img src="https://user-images.githubusercontent.com/44888139/105789589-0fe8a400-5fc6-11eb-83bb-00fda47ff499.png" width="600px">  
+<img src="https://user-images.githubusercontent.com/44888139/107182603-68855b80-6a20-11eb-801d-8fba026c5627.png" width="600px"> 
+
   
 ## Features
 You can create graphs and result's csv files from original csv files.
