@@ -7,8 +7,6 @@ import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 
 
-
-
 class DataExtractor:
     def __init__(self, filename, dict):
         # ファイル名
@@ -25,33 +23,45 @@ class DataExtractor:
         self.DELow2 = dict[self.DECol2]["low"]
 
         self.DEFirst = dict[self.DECol3]["first"]
-        
-        self.DEPlotsize = {"small":(8,5), "large":(15,8), "zero":(1,1)}[dict["graph"]["size"]]
+
+        self.DEPlotsize = {
+            "small": (8, 5),
+            "large": (15, 8),
+            "zero": (1, 1)
+        }[dict["graph"]["size"]]
 
     def create_dataframe(self):
-        if self.DEFilename[-8:] not in [self.DECol1+".csv", self.DECol2+".csv", self.DECol3+".csv"]:
+        if self.DEFilename[-8:] not in [self.DECol1 + ".csv",
+                                        self.DECol2 + ".csv",
+                                        self.DECol3 + ".csv"]:
             # ファイルの読み出し
-            self.df = pd.read_csv(self.DEFilename, encoding="SHIFT-JIS", engine='python')
+            self.df = pd.read_csv(
+                self.DEFilename,
+                encoding="SHIFT-JIS",
+                engine='python')
             # 差分を追加
             try:
                 if self.DEFirst == self.DECol1:
-                    self.df[self.DECol3] = self.df[self.DECol1] - self.df[self.DECol2]
+                    self.df[self.DECol3] = self.df[self.DECol1] - \
+                        self.df[self.DECol2]
                 else:
-                    self.df[self.DECol3] = self.df[self.DECol2] - self.df[self.DECol1]
-                print("処理実施："+self.DEFilename)
+                    self.df[self.DECol3] = self.df[self.DECol2] - \
+                        self.df[self.DECol1]
+                print("処理実施：" + self.DEFilename)
                 return(True)
             except BaseException as e:
-                print("処理不可：{0}  -->{1}が存在しません".format(self.DEFilename,str(e)))
+                print("処理不可：{0}  -->{1}が存在しません".format(self.DEFilename, str(e)))
         else:
-            print("処理不要："+self.DEFilename )
+            print("処理不要：" + self.DEFilename)
         return(False)
 
     def separate_dataframe(self):
         # 該当のINDEXを抽出
-        #list = self.df.query("({0} < OUT1 | {0} < OUT2) & (OUT1 < {1} | OUT2 < {1})".format(SD_low,SD_high)).index
-        query_eva1 = "({1} < {0} & {0} < {2})".format(self.DECol1,self.DELow1,self.DEHigh1)
-        query_eva2 = "({1} < {0} & {0} < {2})".format(self.DECol2,self.DELow2,self.DEHigh2)
-        list = self.df.query(query_eva1+" | "+query_eva2).index
+        query_eva1 = "({1} < {0} & {0} < {2})".format(
+            self.DECol1, self.DELow1, self.DEHigh1)
+        query_eva2 = "({1} < {0} & {0} < {2})".format(
+            self.DECol2, self.DELow2, self.DEHigh2)
+        list = self.df.query(query_eva1 + " | " + query_eva2).index
         # INDEXの塊をリストに切り分け
         self.result = []
         val_pre = 0
@@ -73,24 +83,27 @@ class DataExtractor:
         for i, temp in enumerate(self.result):
             label = "{0:03}".format(i)
             self.df1["1" + label] = pd.DataFrame(self.df[temp[0]:temp[-1]][self.DECol1]
-                                    .reset_index().loc[:, [self.DECol1]])
+                                                 .reset_index().loc[:, [self.DECol1]])
             self.df2["2" + label] = pd.DataFrame(self.df[temp[0]:temp[-1]][self.DECol2]
-                                    .reset_index().loc[:, [self.DECol2]])
+                                                 .reset_index().loc[:, [self.DECol2]])
             self.df3["3" + label] = pd.DataFrame(self.df[temp[0]:temp[-1]][self.DECol3]
-                                    .reset_index().loc[:, [self.DECol3]])
+                                                 .reset_index().loc[:, [self.DECol3]])
 
     def save_dataframe(self):
         # ファイルに書き込み
         # excelで開きたいのでshift-jisを指定する
-        self.df1.to_csv(self.DEFilename[:-4] + "-"+self.DECol1+".csv", encoding="shift_jis")
-        self.df2.to_csv(self.DEFilename[:-4] + "-"+self.DECol2+".csv", encoding="shift_jis")
-        self.df3.to_csv(self.DEFilename[:-4] + "-"+self.DECol3+".csv", encoding="shift_jis")
+        self.df1.to_csv(
+            self.DEFilename[:-4] + "-" + self.DECol1 + ".csv", encoding="shift_jis")
+        self.df2.to_csv(
+            self.DEFilename[:-4] + "-" + self.DECol2 + ".csv", encoding="shift_jis")
+        self.df3.to_csv(
+            self.DEFilename[:-4] + "-" + self.DECol3 + ".csv", encoding="shift_jis")
 
     def plot_dataframe(self):
         # 参考までに表示
-        if self.DEPlotsize == (1,1):
+        if self.DEPlotsize == (1, 1):
             return(0)
-        
+
         fig = figure(figsize=self.DEPlotsize)
         for i in range(9):
             num = i
@@ -100,7 +113,7 @@ class DataExtractor:
             # 折れ線グラフ
             self.df[self.result[num][0]:self.result[num][-1]].plot(ax=ax)
             # 縦軸の値を指定
-            ax.set_ylim(bottom=-5, top=5)
+            ax.set_ylim(bottom=-1, top=1)
             # グリッド表示
             ax.grid(True)
         return(1)
@@ -119,9 +132,10 @@ def main():
         if d.create_dataframe():
             d.separate_dataframe()
             d.save_dataframe()
-            plot_counter=d.plot_dataframe()
+            plot_counter = d.plot_dataframe()
     if plot_counter != 0:
         plt.show()
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     main()
