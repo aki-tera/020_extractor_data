@@ -11,7 +11,16 @@ jp_font = "Yu Gothic"
 
 
 class DataExtractor:
+    """Extract the values from csv files and save them to csv files.
+    """
+
     def __init__(self, filename, dict):
+        """Set variables.
+
+        Args:
+            filename (str): file name of csv
+            dict (dict): parameters of setting
+        """
         # ファイル名
         self.DEFilename = filename
         # 各種設定を定義
@@ -34,6 +43,12 @@ class DataExtractor:
         }[dict["graph"]["size"]]
 
     def create_dataframe(self):
+        """Convert from csv to DataFrame.
+
+        Returns:
+            bool: True is processable, False isn't.
+
+        """
         if self.DEFilename[-8:] not in [self.DECol1 + ".csv",
                                         self.DECol2 + ".csv",
                                         self.DECol3 + ".csv"]:
@@ -59,6 +74,8 @@ class DataExtractor:
         return(False)
 
     def separate_dataframe(self):
+        """Split the data which extract in range into each DataFrames.
+        """
         # 該当のINDEXを抽出
         query_eva1 = "({1} < {0} & {0} < {2})".format(
             self.DECol1, self.DELow1, self.DEHigh1)
@@ -100,6 +117,8 @@ class DataExtractor:
                                                  .reset_index().loc[:, [self.DECol3]])
 
     def save_dataframe(self):
+        """Save each DataFrames.
+        """
         # ファイルに書き込み
         # excelで開きたいのでshift-jisを指定する
         self.df1.to_csv(
@@ -110,6 +129,12 @@ class DataExtractor:
             self.DEFilename[:-4] + "-" + self.DECol3 + ".csv", encoding="shift_jis")
 
     def plot_dataframe(self):
+        """Display some data in a graph.
+
+        Returns:
+            int: If one,  graph is displayed by plt.show().
+
+        """
 
         if self.DEPlotsize == (1, 1):
             return(0)
