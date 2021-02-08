@@ -14,33 +14,33 @@ class DataExtractor:
     """Extract the values from csv files and save them to csv files.
     """
 
-    def __init__(self, filename, dict):
+    def __init__(self, filename, setting_dict):
         """Set variables.
 
         Args:
             filename (str): file name of csv
-            dict (dict): parameters of setting
+            setting_dict (dict): parameters of setting
         """
         # ファイル名
         self.DEFilename = filename
         # 各種設定を定義
-        self.DECol1 = list(dict.keys())[0]
-        self.DECol2 = list(dict.keys())[1]
-        self.DECol3 = list(dict.keys())[2]
+        self.DECol1 = list(setting_dict.keys())[0]
+        self.DECol2 = list(setting_dict.keys())[1]
+        self.DECol3 = list(setting_dict.keys())[2]
 
-        self.DEHigh1 = dict[self.DECol1]["high"]
-        self.DELow1 = dict[self.DECol1]["low"]
+        self.DEHigh1 = setting_dict[self.DECol1]["high"]
+        self.DELow1 = setting_dict[self.DECol1]["low"]
 
-        self.DEHigh2 = dict[self.DECol2]["high"]
-        self.DELow2 = dict[self.DECol2]["low"]
+        self.DEHigh2 = setting_dict[self.DECol2]["high"]
+        self.DELow2 = setting_dict[self.DECol2]["low"]
 
-        self.DEFirst = dict[self.DECol3]["first"]
+        self.DEFirst = setting_dict[self.DECol3]["first"]
 
         self.DEPlotsize = {
             "small": (9, 5),
             "large": (13, 10),
             "zero": (1, 1)
-        }[dict["graph"]["size"]]
+        }[setting_dict["graph"]["size"]]
 
     def create_dataframe(self):
         """Convert from csv to DataFrame.
@@ -181,13 +181,13 @@ class DataExtractor:
 def main():
     # パラメータの取り出し
     setting = open("setting.json", "r", encoding="utf-8")
-    dict = json.load(setting)
+    setting_dict = json.load(setting)
 
     # ファイル読み込み
     filename = glob.glob("*.csv")
     plot_counter = 0
     for row in filename:
-        d = DataExtractor(row, dict)
+        d = DataExtractor(row, setting_dict)
         if d.create_dataframe():
             d.separate_dataframe()
             d.save_dataframe()
