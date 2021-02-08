@@ -3,8 +3,8 @@
 
 ## DEMO
 **Output Data  <-**  
-<img src="https://user-images.githubusercontent.com/44888139/107182733-a1253500-6a20-11eb-89f5-a8c757ac27da.png" width="500px">
-<img src="https://user-images.githubusercontent.com/44888139/107182792-c31eb780-6a20-11eb-9a7b-309a94fc6b3a.png" width="200px">  
+<img src="https://user-images.githubusercontent.com/44888139/107182733-a1253500-6a20-11eb-89f5-a8c757ac27da.png" width="550px">
+<img src="https://user-images.githubusercontent.com/44888139/107182792-c31eb780-6a20-11eb-9a7b-309a94fc6b3a.png" width="300px">  
 **INPUT Data  ->**   
 <img src="https://user-images.githubusercontent.com/44888139/107182603-68855b80-6a20-11eb-801d-8fba026c5627.png" width="600px"> 
 
