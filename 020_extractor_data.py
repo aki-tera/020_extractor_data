@@ -83,22 +83,14 @@ class DataExtractor:
             self.DECol2, self.DELow2, self.DEHigh2)
         list = self.df.query(query_eva1 + " | " + query_eva2).index
 
-        # INDEXの塊をリストに切り分け
-        self.result = []
-        val_pre = 0
+        # # INDEXの塊をリストに切り分け
+        self.result = separate_index(list)
+
+        # 最も大きいindexを調査
         index_max = 0
-        for i, val in enumerate(list):
-            if i == 0:
-                temp = [val]
-            elif val - val_pre < 2:
-                temp.append(val)
-            else:
-                self.result.append(temp)
-                # 最も大きいindexを調査
-                if len(temp) > index_max:
-                    index_max = len(temp)
-                temp = [val]
-            val_pre = val
+        for temp in self.result:
+            if len(temp) > index_max:
+                index_max = len(temp)
 
         # 各列ごとにファイルにまとめる
         # 各列ごとのデータフレームの初期化
@@ -131,7 +123,7 @@ class DataExtractor:
     def plot_dataframe(self):
         """Display some data in a graph.
 
-        Returns:
+        Return:
             int: If one,  graph is displayed by plt.show().
 
         """
@@ -176,6 +168,36 @@ class DataExtractor:
             ax.grid(True)
 
         return(1)
+
+
+def separate_index(list):
+    """Split a chunk of index into a list.
+
+    Args:
+        list (list): a chunk of index
+
+    Return:
+        list:((1, 2, 3), (5, 6)) <-- (1, 2, 3, 5, 6)
+    """
+    result = []
+    val_pre = 0
+    for i, val in enumerate(list):
+        if i == 0:
+            # 1回目は値を保持するのみ
+            temp = [val]
+        elif val - val_pre < 2:
+            # 値が連続している場合、値を連続で保持する
+            temp.append(val)
+        else:
+            # 値が連続していない場合、結果を取り出す
+            result.append(temp)
+            temp = [val]
+        # 前の値として保存する
+        val_pre = val
+    # 最後のみ残りの部分を保存する
+    result.append(temp)
+
+    return(result)
 
 
 def main():
