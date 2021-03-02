@@ -1,3 +1,4 @@
+
 import glob
 
 import json
@@ -6,8 +7,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 
-# 日本語フォント
+# 日本語フォント設定
+from matplotlib import rc
 jp_font = "Yu Gothic"
+rc('font', family=jp_font)
 
 
 class DataExtractor:
@@ -144,7 +147,9 @@ class DataExtractor:
         fig = figure(figsize=self.DEPlotsize)
 
         # 描画タイトルを表示
-        fig.suptitle(self.DEFilename, fontname=jp_font)
+        # 個別に日本語にする場合
+        # fig.suptitle(self.DEFilename, fontname=jp_font)
+        fig.suptitle(self.DEFilename)
 
         for i in range(num_plot_max):
             num = i * num_plot_add
