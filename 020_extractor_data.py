@@ -68,12 +68,12 @@ class DataExtractor:
                 else:
                     self.df[self.DECol3] = self.df[self.DECol2] - \
                         self.df[self.DECol1]
-                print("処理実施：" + self.DEFilename)
+                print("処理実施:" + self.DEFilename)
                 return(True)
             except BaseException as e:
-                print("処理不可：{0}  -->{1}が存在しません".format(self.DEFilename, str(e)))
+                print("処理不可:{0}  -->{1}が存在しません".format(self.DEFilename, str(e)))
         else:
-            print("処理不要：" + self.DEFilename)
+            print("処理不要:" + self.DEFilename)
         return(False)
 
     def separate_dataframe(self):
