@@ -1,6 +1,6 @@
 # 020_extractor_data
 
-![](https://img.shields.io/badge/type-python3-brightgreen)  ![](https://img.shields.io/badge/windows%20build-passing-brightgreen) ![](https://img.shields.io/badge/license-MIT-brightgreen) 
+![python3](https://img.shields.io/badge/type-python3-brightgreen)  ![passing](https://img.shields.io/badge/windows%20build-passing-brightgreen) ![MIT](https://img.shields.io/badge/license-MIT-brightgreen)  
 
 ## DEMO
 
@@ -29,18 +29,20 @@ You can create graphs and result's csv files from original csv files.
 - You can get three results (split data 1 and data 2, difference between data 1 and 2).
 - Each results are csv files and graphs
 
-## Requirement 
+## Requirement  
 
 Python 3
- - I ran this program with the following execution environment.
-   - Python 3.8
-   - Windows 10
+
+- I ran this program with the following execution environment.
+  - Python 3.8
+  - Windows 10
 
 Python Library
-  - pandas
-  - matplotlib
-  - glob
-  - json
+
+- pandas
+- matplotlib
+- glob
+- json
 
 ## Usage
 
@@ -58,7 +60,7 @@ Nothing in particular
 
 This program is under MIT license.
 
-# 【日本語】
+## 【日本語】
 
 ## 機能
 
@@ -77,6 +79,7 @@ This program is under MIT license.
 ## 必要なもの
 
 Python 3
+
 - このプログラムは、Python 3.8とWindows10で動作確認しています。
 
 ## 使い方
